@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+  <head>
+	<title>Socket.IO chat</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+	  body { font: 13px Helvetica, Arial; background-color: #2C2F33; }
+	  form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+	  form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+	  form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+
+	  #wrapper {
+		margin-right: 150px;
+	  }
+
+	  #left {
+		float: left;
+		width: 100%;
+	  }
+
+	  #right {
+		float: right;
+		width: 150px;
+		margin-right: -150px;
+	  }
+
+	  .userlistHeader {
+		padding: 6px;
+		font-size: 16px;
+		list-style-type: none;
+		color: #FFF;
+	  }
+
+	  .userlist {
+		padding: 6px;
+		font-size: 16px;
+		list-style-type: none;
+		color: #FFF;
+	  }
+
+	  li.userlist:hover {
+		background-color: #42464F;
+	  }
+
+	  #messages { list-style-type: none; margin: 0; padding: 0; }
+	  #messages li {
+		font-size: 14px;
+		padding: 5px 10px;
+		color: #FFF;
+	  }
+
+	  #m {
+		background-color: #484B54;
+		color: #FFF;
+	  }
+
+	  .noselect {
+		  cursor: default;
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+	  }
+
+	  #box, html, body {
+	  	width: 100%;
+	  	height: 100%;
+	  }
+
+	  html, body {
+	  	margin:0; padding: 0;
+	  }
+
+	  #leftside {
+	  	width: 546px;
+	  	overflow-y: scroll;
+	  	float: left;
+	  	height: 100%;
+	  }
+
+	  #userlistside {
+	  	width: 182px;
+	  	height: 100%;
+	  	float: left;
+	  }
+
+	</style>
+  </head>
+  <body>
+	<div id="wrapper">
+	  <div id="left">
+		<ul id="messages"></ul>
+
+		<form action="">
+		  <input id="m" class="form-control" autocomplete="off" />
+		</form>
+	  </div>
+	
+	  <div id="right">
+		<ul id="users"></ul>
+	  </div>
+
+	 
+	</div>
+	
+  </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script type="text/javascript">
+	 var name = prompt("Enter your name");
+  </script>
+  <script>
+  function resetUserlist(id, users) {
+		$(id).empty();
+
+		$(id).append($("<li class='userlistHeader'>").text("Users online: " + users.length));
+
+		console.log(users);
+		for (var i = 0; i < users.length; i++) {
+
+			$(id).append($("<li class='userlist'>").text(users[i].name));
+		}
+  }
+
+  class User {
+		constructor(name) {
+			this.name = name;
+			this.avatar = "";
+		}
+
+		setName(name) {
+			this.name = name;
+		}
+
+		get getName() {
+			return this.name;
+		}
+
+		setAvatar(url) {
+			this.avatar = url;
+		}
+
+		get getAvatar() {
+			return this.avatar;
+		}
+	}
+
+  $(function () {
+	var socket = io();
+	var clients = [];
+
+	socket.emit("init", name);
+
+	$("form").submit(function(){
+		socket.emit("message", $("#m").val());
+		$("#m").val("");
+		return false;
+	});
+
+	socket.on("message", function(msg, usr){
+		$("#messages").append($("<li>").text(usr + ": " + msg));
+	});
+
+	socket.on("clients online", function(online) {
+		online.unshift(new User(name));
+		clients = online;
+
+		resetUserlist("#users", clients);
+	});
+
+	socket.on("client joined", function(person) {
+		clients.push(person);
+
+		resetUserlist("#users", clients);
+	});
+
+	socket.on("client left", function(person) {
+		var i = clients.indexOf(person);
+		clients.splice(i, 1);
+
+		resetUserlist("#users", clients);
+	});
+  });
+  </script>
+</html>
