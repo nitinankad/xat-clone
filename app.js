@@ -14,7 +14,7 @@ app.get('/chat', function(req, res) {
 });
 
 http.listen(process.env.PORT || 8000, function() {
-	console.log('Listening on port 8000');
+	console.log('Listening on port ' +  process.env.PORT);
 });
 
 Array.prototype.random = function () {
