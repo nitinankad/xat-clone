@@ -1,14 +1,14 @@
 # chat-server
 
-A simple chat web application made in Javascript using Node.js, Express.js and socket.io.
+A remake of xat.com made in Javascript using Node.js, Express.js and socket.io.
 
 ## Features
-* Enter username when joining
+* Guest system to automatically assign a name and profile picture
 * Send messages to room
 * Userlist to show who is online
 
 ## TODO
-- [ ] Improved UI
+- [x] Improve chat UI
 - [ ] User registration / login system
 - [ ] Multiple rooms
 

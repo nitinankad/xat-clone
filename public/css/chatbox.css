@@ -1,0 +1,192 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+    background-color: yellow;
+    overflow: hidden;
+}
+
+body {
+    height: 100%;
+    background-color: #d3d3d3;
+}
+
+body,
+textarea {
+    font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+}
+
+#header {
+    height: 7%;
+    border-bottom: 1px solid;
+}
+
+h2,
+h3 {
+    text-align: center;
+}
+
+ul,
+li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#wrap {
+    height: 100%;
+    position: relative;
+}
+
+.window-banner {
+    position: absolute;
+    margin: auto;
+    left: 0px;
+    right: 0px;
+}
+
+.window {
+    width: 50%;
+    position: relative;
+    float: left;
+    height: 100%;
+}
+
+.left {
+    width: 75%;
+    position: relative;
+    float: left;
+    height: 100%;
+}
+
+.right {
+    width: 25%;
+    position: relative;
+    float: left;
+    height: 100%;
+}
+
+.pane {
+    width: 100%;
+    position: relative;
+    height: 50%;
+}
+
+.message_history {
+    width: 100%;
+    position: relative;
+    height: 85%;
+    overflow-y: scroll;
+    padding: .6rem .46667rem 0 .73333rem;
+}
+
+.input_box {
+    width: 100%;
+    position: relative;
+    height: 20%;
+}
+
+.userlist {
+    width: 100%;
+    position: relative;
+    height: 70%;
+    overflow-y: auto;
+    padding: 0 0 0 .46667rem;
+}
+
+.userlist li {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.userlist_pawn {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 1px;
+}
+
+.userlist_my_name {
+    display: inline-block;
+    margin-left: 0.2px;
+    font-size: .93333rem;
+    font-weight: 600;
+}
+
+.userlist_name {
+    display: inline-block;
+    margin-left: 0.2px;
+    font-size: .93333rem;
+    font-weight: 400;
+}
+
+.info {
+    width: 100%;
+    position: relative;
+    height: 25%;
+}
+
+.message {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+}
+
+.user_message {
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.message_sender {
+    font-size: 14px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+.message_contents {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.message_box {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    outline: 1px solid black;
+    background: transparent;
+    border: none;
+    font-size: .93333rem;
+    font-weight: 700;
+    overflow-y: scroll;
+    padding: 0 0 0 .3rem;
+}
+
+.message_pawn {
+    margin-right: 2px;
+    max-width: 8px;
+    height: auto;
+    width: auto;
+}
+
+.user_profile {
+    display: inline-block;
+}
+
+#pane1 {
+    border-bottom: 1px dashed;
+}
+
+#window1 {
+    border-right: 1px solid;
+}
+
+#window2 {
+    border-left: 1px solid;
+}

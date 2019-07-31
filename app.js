@@ -3,7 +3,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-app.use(express.static("img"));
+app.use(express.static("public"));
 
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
@@ -29,29 +29,13 @@ function randint(n) {
 }
 
 function randint(min, max) {
-  return Math.floor(Math.random() * (max - min) ) + min;
-}
-
-function remove(array, predicate) {
-    var removed = [];
-
-    for (var i = 0; i < array.length;) {
-
-        if (predicate(array[i])) {
-            removed.push(array.splice(i, 1));
-            continue;
-        }
-
-        i++;                
-    }
-
-    return removed;
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 class User {
 	constructor() {
 		this.name = "";
-		this.id = "#"+randint(10)+""+randint(10)+""+randint(10)+""+randint(10);
+		this.id = -1;
 		this.avatar = "";
 	}
 
@@ -71,7 +55,7 @@ class User {
 		return this.avatar;
 	}
 
-	setExistingID(id) {
+	setID(id) {
 		this.id = id;
 	}
 
@@ -80,20 +64,16 @@ class User {
 	}
 }
 
-// var clients = [];
 var clients = new Map();
 
-io.on('connection', function(socket){
-	//io.emit('chat message', 'New connection');
-	// clients.push(socket);
+io.on('connection', function(socket) {
 	clients.set(socket, new User());
 
 	socket.on('init', function(name) {
-		var avatar = "https://www.xat.com/web_gear/chat/av/"+randint(1, 1758)+".png";
+		var avatar = "img/avatars/" + randint(1, 1758) + ".png";
 
 		if (name === "") {
 			name = n1.random() + "" + n2.random();
-			
 		}
 
 		clients.get(socket).setName(name);
@@ -101,13 +81,13 @@ io.on('connection', function(socket){
 
 		socket.emit("user data", {
 			name: name,
-			k1: "k1value",
+			k1: "k1value", // Will be used later for authentication
 			avatar: avatar
 		});
-		// io.emit('client joined', clients.get(socket).getName)
 
 		var online = [];
-		// send a list of online users
+
+		// Send a list of online users
 		for (let [sock, usr] of clients) {
 			if (sock != socket) {
 				sock.emit('client joined', clients.get(socket));
@@ -116,17 +96,13 @@ io.on('connection', function(socket){
 		}
 		online = online.filter(function(e) { return e.name != ""; });
 
-		console.log("[init]")
-		console.log(online);
-
 		socket.emit('clients online', online);
 	});
 
-	socket.on('message', function(msg){
-		console.log(msg);
+	socket.on('message', function(msg) {
+		var usrname = clients.get(socket).getName;
+		var avi = clients.get(socket).getAvatar;
 
-		var usrname = clients.get(socket).name;
-		var avi = clients.get(socket).avatar;
 		io.emit('message', msg, {
 			name: usrname,
 			avatar: avi
@@ -137,10 +113,5 @@ io.on('connection', function(socket){
 		io.emit('client left', clients.get(socket));
 
 		clients.delete(socket);
-
-		console.log("Client left, new length: ");
-		console.log(clients.length);
-		// var i = clients.indexOf(socket);
-		// clients.splice(i, 1);
 	});
 });

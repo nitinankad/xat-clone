@@ -1,347 +1,40 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title></title>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-	<style type="text/css">
-	* {
-      margin: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      height: 100%;
-      background-color: yellow;
-      overflow: hidden;
-    }
-
-    body {
-      height: 100%;
-      background-color: #d3d3d3;
-    }
-
-    body, textarea {
-      font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, Arial, sans-serif,Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-    }
-
-    #header {
-      height: 7%;
-      border-bottom: 1px solid;
-    }
-
-    h2,
-    h3 {
-      text-align: center;
-    }
-
-    ul, li {
-    	list-style: none;
-    	margin: 0;
-    	padding: 0;
-    }
-
-    #wrap {
-      height: 100%;
-      position: relative;
-    }
-
-    .window-banner {
-      position: absolute;
-      margin: auto;
-      left: 0px;
-      right: 0px;
-    }
-
-    .window {
-      width: 50%;
-      position: relative;
-      float: left;
-      height: 100%;
-    }
-    
-    .left {
-      width: 75%;
-      position: relative;
-      float: left;
-      height: 100%;
-    }
-    
-    .right {
-      width: 25%;
-      position: relative;
-      float: left;
-      height: 100%;
-    }
-
-    .pane {
-      width: 100%;
-      position: relative;
-      height: 50%;
-    }
-
-    .message_history {
-      width: 100%;
-      position: relative;
-      height: 85%;
-      overflow-y: scroll;
-      padding:.6rem .46667rem 0 .73333rem;
-    }
-
-    .input_box {
-       width: 100%;
-      position: relative;
-      height: 20%;
-    }
-    
-    .userlist {
-      width: 100%;
-      position: relative;
-      height: 70%;
-      overflow-y: auto;
-      padding: 0 0 0 .46667rem;
-    }
-
-    .userlist li {
-      padding-top: 4px; padding-bottom: 4px;
-    }
-    
-    .userlist_pawn {
-      display: inline-block; vertical-align: top; margin-top: 1px;
-    }
-
-    .userlist_my_name {
-      display: inline-block; margin-left: 0.2px; font-size: .93333rem; font-weight: 600;
-    }
-
-    .userlist_name {
-      display: inline-block; margin-left: 0.2px; font-size: .93333rem; font-weight: 400;
-    }
-
-    .info {
-      width: 100%;
-      position: relative;
-      height: 25%;
-    }
-
-
-    .message {
-    	padding-top: 5px;
-    	padding-bottom: 5px;
-    	display: flex;
-    }
-
-    .user_message {
-    	display: inline-block;
-    	margin-left: 8px;
-    }
-
-    .message_sender {
-      font-size: 14px;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    .message_contents {
-    	font-weight: 700;
-      font-size: 14px;
-    }
-
-    .message_box {
-      display: inline-block; height: 100%; width: 100%; outline: 1px solid black; background:transparent; border:none; font-size: .93333rem; font-weight: 700; overflow-y:scroll; padding:0 0 0 .3rem;
-    }
-
-    .message_pawn {
-      margin-right: 2px; max-width: 8px; height: auto; width: auto;
-    }
-
-    .user_profile {
-    	display: inline-block;
-    }
-
-    #pane1 {
-      border-bottom: 1px dashed;
-    }
-
-    #window1 {
-      border-right: 1px solid;
-    }
-
-    #window2 {
-      border-left: 1px solid;
-    }
-
-	</style>
-
+	<title>xat clone chat</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/chatbox.css">
 </head>
+
 <body>
-  <div id="wrap">
-    <div id="window1" class="left">
-      <div id="pane1" class="message_history">
-       <ul id="chat_history">
+	<div id="wrap">
+		<div id="window1" class="left">
+			<div id="pane1" class="message_history">
+				<ul id="chat_history">
+				</ul>
+			</div>
 
-       <!-- <li>
-        <div class="message">
-          <div class="user_profile">
-            <img src="https://www.xat.com/web_gear/chat/av/252.png" alt="img"/>
-          </div>
+			<div id="pane2" class="input_box">
+				<textarea class="message_box" maxlength="180" placeholder="Start a new message"></textarea>
 
-          <div class="user_message">
-            <div class="message_sender"><img src="GreenPawn.png" class="message_pawn">Name</div>
-            <div class="message_contents">Proin nec neque a nibh rutrum scelerisque id sed est. Phasellus nisl enim, pellentesque vitae tristique vel, pretium quis nulla. Sed vel rutrum diam, at imperdiet orci. Sed varius, turpis vel mollis pellentesque, turpis lacus suscipit mi, quis luctus metus diam eu urna. Proin aliquet sit amet turpis ut viverra. Cras tincidunt, metus nec ultricies scelerisque, libero nulla tincidunt eros, sed rutrum quam ante sit amet magna. Integer aliquet nec nisi id suscipit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse tempor egestas aliquet. Curabitur sit amet odio vitae urna varius volutpat pharetra id lacus. Nullam porta magna vitae nisl porta, et feugiat diam vestibulum. Quisque eget fringilla sapien, non bibendum nunc. </div>
-          </div>
-        </div>
-       </li> -->
+			</div>
+		</div>
 
-        </ul>
-      </div>
+		<div id="window2" class="right">
+			<div id="header">
+				<h2>Userlist</h2>
+			</div>
+			<div class="userlist">
+				<ul id="userlist">
+				</ul>
+			</div>
 
-      <div id="pane2" class="input_box">
-          <textarea class="message_box" maxlength="180" placeholder="Start a new message"></textarea>
-        
-      </div>
-    </div>
+		</div>
+	</div>
 
-    <div id="window2" class="right">
-      <div id="header">
-        <h2>Userlist</h2>
-      </div>
-      <div class="userlist">
-        <ul id="userlist">
-          <!-- <li>
-            <img src="GreenPawn.png" class="userlist_pawn">
-            <div class="userlist_my_name">WuggyDumplings</div>
-          </li>
-
-          <li>
-            <img src="GreenPawn.png" class="userlist_pawn">
-            <div class="userlist_name">WuggyDumplings</div>
-          </li> -->
-        </ul>
-      </div>
-
-
-    </div>
-  </div>
-
-  <script type="text/javascript">
-  var name = "";
-
-  function resetUserlist(users) {
-    var id = "#userlist";
-
-    $(id).empty();
-
-    var userlistHTML = "";
-
-    userlistHTML += '<li><img src="GreenPawn.png" class="userlist_pawn"><div class="userlist_my_name">'+name+'</div></li>';
-
-    for (var i = 1; i < users.length; i++) {
-      // $(id).append($("<li class='userlist'>").text(users[i].name));
-      if (users[i].name != "")
-        userlistHTML += '<li><img src="GreenPawn.png" class="userlist_pawn"><div class="userlist_name">'+users[i].name+'</div></li>';
-    }
-
-    $(id).html(userlistHTML);
-  }
-
-  class User {
-    constructor(name, avatar) {
-      this.name = name;
-      this.avatar = avatar;
-    }
-
-    setName(name) {
-      this.name = name;
-    }
-
-    get getName() {
-      return this.name;
-    }
-
-    setAvatar(url) {
-      this.avatar = url;
-    }
-
-    get getAvatar() {
-      return this.avatar;
-    }
-  }
-
-$(function () {
-  var socket = io();
-  var clients = [];
-
-  socket.emit("init", name);
-
-  function sendMessage() {
-      var message = $("textarea").val();
-
-      if ($.trim(message) == "") return false;
-
-      $('<li><div class="message"><div class="user_profile"><img src="'+avatar+'" alt="img"/></div><div class="user_message"><div class="message_sender"><img src="GreenPawn.png" class="message_pawn">'+name+'</div><div class="message_contents">'+message+'</div></div></div></li>').appendTo($('#chat_history'));
-
-      socket.emit("message", message);
-
-      $('textarea').val(null);
-
-      $(".message_history").scrollTop($(".message_history").prop("scrollHeight"));
-
-    }
-
-
-  $(window).on('keydown', function(e) {
-    if (e.which == 13) {
-      sendMessage();
-      return false;
-    }
-  });
-
-  socket.on("message", function(msg, usr){
-    if (usr.name != name && usr.avatar != avatar) {
-      $('<li><div class="message"><div class="user_profile"><img src="'+usr.avatar+'" alt="img"/></div><div class="user_message"><div class="message_sender"><img src="GreenPawn.png" class="message_pawn">'+usr.name+'</div><div class="message_contents">'+msg+'</div></div></div></li>').appendTo($('#chat_history'));
-
-      $(".message_history").scrollTop($(".message_history").prop("scrollHeight"));
-    }
-  });
-
-  socket.on("clients online", function(online) {
-    online.unshift(new User(name, avatar));
-    clients = online;
-
-    resetUserlist(clients);
-  });
-
-  // Server sends back user information if local storage is not set
-  socket.on("user data", function(data) {
-    name = data.name;
-    avatar = data.avatar;
-  });
-
-  socket.on("client joined", function(person) {
-    clients.push(person);
-
-    resetUserlist(clients);
-  });
-
-  socket.on("client left", function(person) {
-    var i = clients.indexOf(person);
-    clients.splice(i, 1);
-
-    resetUserlist(clients);
-  });
-
-});
-
-  </script>
-
-<script src="/socket.io/socket.io.js"></script>
-
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="js/chatclient.js"></script>
 </body>
 
 </html>
