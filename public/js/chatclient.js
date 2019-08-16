@@ -67,7 +67,6 @@ $(function() {
 		$(".message_history").scrollTop($(".message_history").prop("scrollHeight"));
 
 	}
-
 	$(window).on('keydown', function(e) {
 		if (e.which == 13) {
 			sendMessage();
