@@ -19,9 +19,25 @@ textarea {
     font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
-#header {
-    height: 7%;
-    border-bottom: 1px solid;
+.header {
+    height: 5%;
+
+    background-color: rgb(30, 30, 30);
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-weight: 500;
+
+    background-image: linear-gradient(hsla(0,0%,100%,.3),rgba(0,0,0,.08));
+    border-radius: .4rem;
+    margin: .26667rem .13333rem;
+    margin-bottom: -1px;
+    cursor: pointer;
+}
+
+.header p {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 h2,
