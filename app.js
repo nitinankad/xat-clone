@@ -1,20 +1,20 @@
-var express = require('express')
+var express = require("express")
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var http = require("http").Server(app);
+var io = require("socket.io")(http);
 
 app.use(express.static("public"));
 
-app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/index.html');
+app.get("/", function(req, res) {
+	res.sendFile(__dirname + "/index.html");
 });
 
-app.get('/chat', function(req, res) {
-	res.sendFile(__dirname + '/chat.html');
+app.get("/chat", function(req, res) {
+	res.sendFile(__dirname + "/chat.html");
 });
 
 http.listen(process.env.PORT || 8000, function() {
-	console.log('Listening on port ' +  process.env.PORT);
+	console.log("Listening on port " +  process.env.PORT);
 });
 
 Array.prototype.random = function () {
@@ -32,86 +32,127 @@ function randint(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-class User {
+class Users {
 	constructor() {
-		this.name = "";
-		this.id = -1;
-		this.avatar = "";
+		this.clients = new Map(); 
 	}
 
-	setName(name) {
-		this.name = name;
+	addUser(sock, id, name, avatar, regname) {
+		if (name == "") return;
+
+		var newUser = {
+			id, name, avatar, regname
+		}
+
+		this.clients.set(sock, newUser);
 	}
 
-	get getName() {
-		return this.name;
+	removeUser(sock) {
+		this.clients.delete(sock);
 	}
 
-	setAvatar(url) {
-		this.avatar = url;
+	getUser(sock) {
+		return this.clients.get(sock);
 	}
 
-	get getAvatar() {
-		return this.avatar;
-	}
-
-	setID(id) {
-		this.id = id;
-	}
-
-	get getID() {
-		return this.id;
+	getAllUsers() {
+		return this.clients;
 	}
 }
 
-var clients = new Map();
+// Client data stored in the format of (socket, {id, name, ...})
+var clients = new Users();
 
-io.on('connection', function(socket) {
-	clients.set(socket, new User());
+io.on("connection", function(socket) {
 
-	socket.on('init', function(name) {
-		var avatar = "img/avatars/" + randint(1, 1758) + ".png";
+	socket.on("init", function(data) {
+		var id = data.id;
+		var name = data.name;
+		var avatar = data.avatar;
+		var regname = data.regname;
+
+		// Flag to assign data to client
+		var sendBackData = false;
+
+		if (name === "" || avatar === "")
+			sendBackData = true;
 
 		if (name === "") {
 			name = n1.random() + "" + n2.random();
 		}
 
-		clients.get(socket).setName(name);
-		clients.get(socket).setAvatar(avatar);
+		if (avatar === "") {
+			avatar = "img/avatars/" + randint(1, 1758) + ".png";
+		}
 
-		socket.emit("user data", {
-			name: name,
-			k1: "k1value", // Will be used later for authentication
-			avatar: avatar
-		});
+		if (id === "") {
+			id = randint(100000, 99999999);
+		}
 
+		if (regname === "") {
+			regname = null;
+		}
+
+		clients.addUser(socket, id, name, avatar, regname);
+
+		if (sendBackData) {
+			socket.emit("user data", {
+				id: id,
+				name: name,
+				avatar: avatar,
+				regname: regname
+			});
+		}
+		
 		var online = [];
 
 		// Send a list of online users
-		for (let [sock, usr] of clients) {
+		for (let [sock, usr] of clients.getAllUsers()) {
 			if (sock != socket) {
-				sock.emit('client joined', clients.get(socket));
-				online.push(clients.get(sock));
+				var joinedUser = clients.getUser(socket);
+
+				sock.emit("client joined", {
+					id: joinedUser.id,
+					name: joinedUser.name,
+					avatar: joinedUser.avatar,
+					regname: joinedUser.regname
+				});
+
+				online.push({
+					id: usr.id,
+					name: usr.name,
+					avatar: usr.avatar,
+					regname: usr.regname
+				});
 			}
 		}
-		online = online.filter(function(e) { return e.name != ""; });
 
-		socket.emit('clients online', online);
+		socket.emit("clients online", online);
 	});
 
-	socket.on('message', function(msg) {
-		var usrname = clients.get(socket).getName;
-		var avi = clients.get(socket).getAvatar;
+	socket.on("message", function(msg) {
+		var data = clients.getUser(socket);
 
-		io.emit('message', msg, {
-			name: usrname,
+		var displayName = data.name;
+		var userID = data.id;
+		var avi = data.avatar;
+
+		io.emit("message", msg, {
+			name: displayName,
+			id: userID,
 			avatar: avi
 		});
 	});
 
-	socket.on('disconnect', function() {
-		io.emit('client left', clients.get(socket));
+	socket.on("disconnect", function() {
+		var disconnectedSocketData = clients.getUser(socket);
 
-		clients.delete(socket);
+		if (disconnectedSocketData == null || disconnectedSocketData == undefined) return;
+
+		io.emit("client left", {
+			id: disconnectedSocketData.id
+		});
+
+		clients.removeUser(socket);
 	});
 });

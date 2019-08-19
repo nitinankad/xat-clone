@@ -1,0 +1,74 @@
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    /*transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;*/
+}
+.modal-content {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    /*padding: 1rem 1.5rem;*/
+    width: 380px;
+    height: 246px;
+    border-radius: 0.5rem;
+
+   /*  left: 174px; top: 20px; 
+*/}
+.close-button {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.show-modal {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    /*transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;*/
+}
+
+.dialogTitleBar {
+    background-color: rgb(30, 30, 30);
+    color: rgb(255, 255, 255);
+    background-image: linear-gradient(hsla(0,0%,100%,.3),rgba(0,0,0,.08));
+    padding: 8px;
+    border-radius: 8px 8px 0 0;
+}
+
+.dialogTitle {
+    color: #fff;
+    padding-left: 6px;
+    font-weight: 700;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+.dialogTitleAction {
+    float: right;
+    color: #02a9d2;
+    padding-right: 2px;
+    margin-top: -18px;
+    cursor: pointer;
+}
+
+.dialogDisplayName {
+    padding: 0.4em;
+}
+
+.dialogUserInfo {
+    display: flex;
+}

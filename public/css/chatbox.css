@@ -129,6 +129,7 @@ li {
     margin-left: 3px;
     font-size: .93333rem;
     font-weight: 600;
+    cursor: pointer;
 }
 
 .userlist_name {
@@ -136,6 +137,7 @@ li {
     margin-left: 3px;
     font-size: .93333rem;
     font-weight: 400;
+    cursor: pointer;
 }
 
 .info {
