@@ -16,8 +16,6 @@ function hasClass(elem, className) {
 }
 
 document.addEventListener('click', function (e) {
-	console.log(hasClass(e.target, 'userlist_my_name'));
-
 	if (hasClass(e.target, 'userlist_name')) {
 		var targetID = parseInt(e.target.getAttribute("data-id"));
 		var targetData = clients.get(targetID);
