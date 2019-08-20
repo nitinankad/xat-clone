@@ -50,7 +50,7 @@ $(function() {
 
 		if ($.trim(message) == "") return false;
 
-		$('<li><div class="message"><div class="user_profile"><img src="' + me.avatar + '" class="avatar"/></div><div class="user_message"><div class="message_sender"><img src="img/GreenPawn.png" class="message_pawn">' + me.name + '</div><div class="message_contents">' + message + '</div></div></div></li>').appendTo($('#chat_history'));
+		$('<li><div class="message"><div class="user_profile"><img src="' + me.avatar + '" class="avatar"/></div><div class="user_message"><div class="message_sender" data-id="'+ me.id +'"><img src="img/GreenPawn.png" class="message_pawn">' + me.name + '</div><div class="message_contents">' + message + '</div></div></div></li>').appendTo($('#chat_history'));
 
 		socket.emit("message", message);
 
@@ -69,7 +69,7 @@ $(function() {
 
 	socket.on("message", function(msg, usr) {
 		if (usr.name != me.name && usr.avatar != me.avatar) {
-			$('<li><div class="message"><div class="user_profile"><img src="' + usr.avatar + '" class="avatar"/></div><div class="user_message"><div class="message_sender"><img src="img/GreenPawn.png" class="message_pawn">' + usr.name + '</div><div class="message_contents">' + msg + '</div></div></div></li>').appendTo($('#chat_history'));
+			$('<li><div class="message"><div class="user_profile"><img src="' + usr.avatar + '" class="avatar"/></div><div class="user_message"><div class="message_sender" data-id="'+ usr.id +'"><img src="img/GreenPawn.png" class="message_pawn">' + usr.name + '</div><div class="message_contents">' + msg + '</div></div></div></li>').appendTo($('#chat_history'));
 
 			$(".message_history").scrollTop($(".message_history").prop("scrollHeight"));
 		}

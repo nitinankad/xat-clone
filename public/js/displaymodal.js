@@ -12,43 +12,65 @@ function windowOnClick(event) {
 }
 
 function hasClass(elem, className) {
-	return elem.className.split(' ').indexOf(className) > -1;
+	return elem.className.split(" ").indexOf(className) > -1;
 }
 
-document.addEventListener('click', function (e) {
-	if (hasClass(e.target, 'userlist_name')) {
+function displayMyModal() {
+	$(".dialogDisplayName").text(me.name);
+
+	$("#dialogAvatar").attr("src", me.avatar);
+
+	if (me.regname == null) {
+		$(".dialogTitle").text(me.id);
+
+	} else {
+		$(".dialogTitle").text(me.regname + " ("+me.id+")");
+
+	}
+
+	toggleModal();
+}
+
+function displayUserModal(targetData) {
+	$(".dialogDisplayName").text(targetData.name);
+
+	$("#dialogAvatar").attr("src", targetData.avatar);
+
+	if (targetData.regname == null) {
+		$(".dialogTitle").text(targetData.id);
+
+	} else {
+		$(".dialogTitle").text(targetData.regname + " ("+targetData.id+")");
+
+	}
+
+	toggleModal();
+}
+
+document.addEventListener("click", function (e) {
+	if (hasClass(e.target, "userlist_name")) {
 		var targetID = parseInt(e.target.getAttribute("data-id"));
 		var targetData = clients.get(targetID);
 
 		// Change the modal contents
-		$(".dialogDisplayName").text(targetData.name);
+		displayUserModal(targetData);
 
-		$("#dialogAvatar").attr("src", targetData.avatar);
 
-		if (targetData.regname == null) {
-			$(".dialogTitle").text(targetData.id);
+	} else if (hasClass(e.target, "userlist_my_name")) {
+		displayMyModal();
 
-		} else {
-			$(".dialogTitle").text(targetData.regname + " ("+targetData.id+")");
+	} else if (hasClass(e.target, "message_sender")) {
+		// Handles names that appear in the chat history
+		var targetID = parseInt(e.target.getAttribute("data-id"));
+		var targetData = clients.get(targetID);
 
-		}
-
-		toggleModal();
-
-	} else if (hasClass(e.target, 'userlist_my_name')) {
-		$(".dialogDisplayName").text(me.name);
-
-		$("#dialogAvatar").attr("src", me.avatar);
-
-		if (me.regname == null) {
-			$(".dialogTitle").text(me.id);
+		if (targetID == me.id) {
+			displayMyModal();
 
 		} else {
-			$(".dialogTitle").text(me.regname + " ("+me.id+")");
-
+			displayUserModal(targetData);
+		
 		}
-
-		toggleModal();
 	}
 
 }, false);
